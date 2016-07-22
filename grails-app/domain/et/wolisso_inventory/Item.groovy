@@ -16,4 +16,8 @@ class Item {
     	name nullable: false, blank: false, maxSize: 512
     	description nullable: true, blank: true
     }
+
+    String toString() {
+    	name.capitalize()
+    }
 }

@@ -1,0 +1,8 @@
+import et.wolisso_inventory.Report
+
+model {
+	Iterable<Report> reportList
+}
+
+json tmpl.report(reportList ?: [])
+

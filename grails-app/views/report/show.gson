@@ -1,0 +1,7 @@
+import et.wolisso_inventory.Report
+
+model {
+	Report report
+}
+
+json tmpl.report(report)

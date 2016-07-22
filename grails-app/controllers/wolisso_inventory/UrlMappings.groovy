@@ -11,9 +11,8 @@ class UrlMappings {
 
         "/"(controller: 'application', action:'index')
         "/items"(resources: "item")
+        "/reports"(resources: "report")
         "500"(view: '/error')
         "404"(view: '/notFound')
-        // "201"(view: '/created')
-        // "/items"(controller: 'item', action: 'index')
     }
 }
