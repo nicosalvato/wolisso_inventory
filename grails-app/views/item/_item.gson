@@ -1,0 +1,7 @@
+import et.wolisso_inventory.Item
+
+model {
+	Item item
+}
+
+json g.render(item)

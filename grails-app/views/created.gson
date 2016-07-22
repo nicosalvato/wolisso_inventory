@@ -1,0 +1,5 @@
+response.status 201
+
+json {
+	message "Created"
+}
