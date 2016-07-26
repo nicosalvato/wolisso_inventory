@@ -72,10 +72,7 @@ grails:
             accept:
                 header:
                     userAgents:
-                        - Gecko
-                        - WebKit
-                        - Presto
-                        - Trident
+                        - None
         types:
             all: '*/*'
             atom: application/atom+xml
