@@ -22,6 +22,12 @@ class BootStrap {
                     ).save flush: true
                 }
     		}
+            test {
+                new Item(
+                    code: "AAA",
+                    name: "Aaa"
+                ).save flush: true  
+            }
     	}
     }
     def destroy = {

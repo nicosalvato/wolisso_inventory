@@ -12,8 +12,6 @@ import grails.plugins.rest.client.RestBuilder
 @Rollback
 class ItemFunctionalSpec extends GebSpec {
 
-    int cnt = 1
-
     RestBuilder getRestBuilder() {
         new RestBuilder()
     }

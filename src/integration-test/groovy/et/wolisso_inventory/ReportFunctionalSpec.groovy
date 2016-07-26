@@ -17,15 +17,20 @@ class ReportFunctionalSpec extends GebSpec {
     }
 
     String getResourcePath() {
-        assert false, "TODO: provide the path to your resource. Example: \"${baseUrl}/books\""
+        "${baseUrl}/reports"
     }
 
     Closure getValidJson() {{->
-        assert false, "TODO: provide valid JSON"
+        [
+            item: Item.load(1).id,
+            category: 'OUT_OF_SERVICE'
+        ]
     }}
 
     Closure getInvalidJson() {{->        
-        assert false, "TODO: provide invalid JSON"
+        [
+            category: 'INVALID'
+        ]
     }}    
 
     void "Test the index action"() {

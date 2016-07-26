@@ -16,8 +16,6 @@ class ItemControllerSpec extends Specification {
         params["externalCode"] = 'EXTERNALTESTCODE'
         params["name"] = 'Test Name'
         params["description"] = 'Test description'
-
-        // assert false, "TODO: Provide a populateValidParams() implementation for this generated test suite"
     }
 
     void "Test the index action returns the correct response"() {
@@ -53,7 +51,17 @@ class ItemControllerSpec extends Specification {
         then:"A redirect is issued to the show action"
             Item.count() == 1
             response.status == CREATED.value()
-            response.json            
+            response.json  
+
+        when: "An instance with duplicated code is saved"
+            response.reset()
+            populateValidParams(params)
+            item = new Item(params)
+            controller.save()
+
+        then: "The create view is rendered again"
+            response.status == UNPROCESSABLE_ENTITY.value()
+            response.json.errors          
     }
 
     void "Test that the show action returns the correct model"() {

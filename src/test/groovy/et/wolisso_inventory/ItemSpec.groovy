@@ -9,6 +9,8 @@ import spock.lang.Specification
 @TestFor(Item)
 class ItemSpec extends Specification {
 
+    Item item
+
     def setup() {
     }
 
@@ -16,8 +18,20 @@ class ItemSpec extends Specification {
     }
 
     void "test null code"() {
+        when: "item is empty"
+        item = new Item()
+
+        then: "shouldn't validate"
+        !item.validate()
+
         when: "code is null"
-        def item = new Item()
+        item = new Item(name: "Bau")
+
+        then: "shouldn't validate"
+        !item.validate()
+
+        when: "name is null"
+        item = new Item(code: 'BAU')
 
         then: "shouldn't validate"
         !item.validate()
