@@ -13,7 +13,7 @@ class ReportSpec extends ConstraintUnitSpec {
 	Item item
 	
 	def setup() {
-    	item = new Item(code: 'ABC', name: 'Abc')
+    	item = new Item(code: 'ABC', name: 'Abc', deliveryDate: new Date())
     }
 
 	@Unroll("test Report #error constraint for field #field")

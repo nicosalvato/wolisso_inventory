@@ -13,7 +13,7 @@ class MaintenanceSpec extends ConstraintUnitSpec {
 	Item item
 	
 	def setup() {
-    	item = new Item(code: 'ABC', name: 'Abc')
+    	item = new Item(code: 'ABC', name: 'Abc', price: 123.4, deliveryDate: new Date())
     }
 
 	@Unroll("test Maintenance #error constraint for field #field")
@@ -28,11 +28,12 @@ class MaintenanceSpec extends ConstraintUnitSpec {
         error                  | field              | val
         'nullable'             | 'item'             | null
         'nullable'             | 'cost'             | null
+        'nullable'             | 'maintenanceDate'  | null
         'min.notmet'           | 'cost'             | -1.2
     }
 
     void "test validation success"() {
     	expect: "validation successful"
-    		new Maintenance(item: item, cost: 300).validate()
+    		new Maintenance(item: item, cost: 300, maintenanceDate: new Date()).validate()
     }
 }

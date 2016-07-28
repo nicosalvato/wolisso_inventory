@@ -10,8 +10,9 @@ class MaintenanceControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        params['item'] = new Item(code: 'PIPPO', name: 'Pippo', price: 23.1)
+        params['item'] = new Item(code: 'PIPPO', name: 'Pippo', price: 23.1, deliveryDate: new Date())
         params['cost'] = 789.00
+        params['maintenanceDate'] = new Date()
     }
 
     void "Test the index action returns the correct response"() {

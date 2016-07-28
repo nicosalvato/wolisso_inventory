@@ -13,7 +13,7 @@ class ItemSpec extends ConstraintUnitSpec {
     @Unroll("test Item #error constraint for field #field")
     void "test item constraints"() {
         setup:
-        new Item(code: 'CODE', name: 'Eh', price: 1.2).save(flush: true)
+        new Item(code: 'CODE', name: 'Eh', price: 1.2, deliveryDate: new Date()).save(flush: true)
         /* See http://stackoverflow.com/questions/30047904/unique-constraint-validation-now-passes-in-grails-after-migration-from-2-2-to-2, no comment!*/
 
         when:
@@ -27,6 +27,7 @@ class ItemSpec extends ConstraintUnitSpec {
         'nullable'             | 'code'             | null
         'nullable'             | 'name'             | null
         'nullable'             | 'price'            | null
+        'nullable'             | 'deliveryDate'     | null
         'unique'               | 'code'             | 'CODE'
         'maxSize.exceeded'     | 'code'             | getLongString(65)
         'maxSize.exceeded'     | 'name'             | getLongString(129)
@@ -36,6 +37,6 @@ class ItemSpec extends ConstraintUnitSpec {
 
     void "test validation success"() {
         expect: "validation successful"
-            new Item(code: 'CC', name: 'Cc', price: 1.2).validate()
+            new Item(code: 'CC', name: 'Cc', price: 1.2, deliveryDate: new Date()).validate()
     }
 }

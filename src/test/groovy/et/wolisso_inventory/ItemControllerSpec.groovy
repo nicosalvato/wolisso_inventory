@@ -15,6 +15,7 @@ class ItemControllerSpec extends Specification {
         params["name"] = 'Test Code'
         params["description"] = 'Test description'
         params['price'] = 100.0
+        params['deliveryDate'] = new Date()
     }
 
     void "Test the index action returns the correct response"() {
