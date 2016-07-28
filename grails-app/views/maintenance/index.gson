@@ -1,0 +1,8 @@
+import et.wolisso_inventory.Maintenance
+
+model {
+	Iterable<Maintenance> maintenanceList
+}
+
+json tmpl.maintenance(maintenanceList ?: [])
+
