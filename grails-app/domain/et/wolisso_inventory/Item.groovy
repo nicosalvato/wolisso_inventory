@@ -9,6 +9,7 @@ class Item {
     BigDecimal price
     boolean isDonation = false
 
+    Date deliveryDate
 	Date dateCreated
 	Date lastUpdated
 

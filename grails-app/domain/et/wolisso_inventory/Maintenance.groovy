@@ -4,6 +4,7 @@ class Maintenance {
 
 	Date dateCreated
 	Date lastUpdated
+	Date maintenanceDate
 
 	BigDecimal cost
 	Item item
