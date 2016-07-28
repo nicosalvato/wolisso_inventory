@@ -2,42 +2,37 @@ package et.wolisso_inventory
 
 import grails.test.mixin.TestFor
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Report)
-class ReportSpec extends Specification {
+class ReportSpec extends ConstraintUnitSpec {
 
-	Report report
 	Item item
-    
-    def setup() {
+	
+	def setup() {
     	item = new Item(code: 'ABC', name: 'Abc')
     }
 
-    def cleanup() {
+	@Unroll("test Report #error constraint for field #field")
+    void "test report constraints"() {
+        when:
+        def obj = new Report("$field": val)
+
+        then:
+        validateConstraints(obj, field, error)
+
+        where:
+        error                  | field              | val
+        'nullable'             | 'item'             | null
+        'nullable'             | 'category'         | null
+        'not.inList'           | 'category'         | 'WRONG'
     }
 
-    void "test wrong validation"() {
-    	when: "item is null"
-    		report = new Report(category: 'OUT_OF_SERVICE')
-		then: "report will not validate"
-			assert !report.validate()
-
-		when: "category is null"
-    		report = new Report(item: item)
-		then: "report will not validate"
-			assert !report.validate()
-
-		when: "category is not included in inList constraint options"
-    		report = new Report(item: item, category: 'WRONG')
-		then: "report will not validate"
-			assert !report.validate()  
-
-		when: "item is valid"
-			report = new Report(item: item, category: 'OUT_OF_SERVICE') 
-		then: "report will validate"
-			assert report.validate()
+    void "test validation success"() {
+    	expect: "validation successful"
+    		new Report(item: item, category: 'OUT_OF_SERVICE').validate()
     }
 }

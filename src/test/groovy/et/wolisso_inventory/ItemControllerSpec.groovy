@@ -10,12 +10,11 @@ class ItemControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-
-        // TODO: Populate valid properties like...
-        params["code"] = 'TESTCODE'
-        params["externalCode"] = 'EXTERNALTESTCODE'
-        params["name"] = 'Test Name'
+        params["code"] = 'TC'
+        params["externalCode"] = 'TC'
+        params["name"] = 'Test Code'
         params["description"] = 'Test description'
+        params['price'] = 100.0
     }
 
     void "Test the index action returns the correct response"() {
@@ -42,6 +41,7 @@ class ItemControllerSpec extends Specification {
             response.json.errors
 
         when:"The save action is executed with a valid instance"
+            def initialCount = Item.count()
             response.reset()
             populateValidParams(params)
             item = new Item(params)
@@ -49,7 +49,7 @@ class ItemControllerSpec extends Specification {
             controller.save(item)
 
         then:"A redirect is issued to the show action"
-            Item.count() == 1
+            Item.count() == initialCount + 1
             response.status == CREATED.value()
             response.json  
 
