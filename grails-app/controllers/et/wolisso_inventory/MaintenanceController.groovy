@@ -6,7 +6,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class MaintenanceController {
 
-    static responseFormats = ['json', 'xml']
+    static responseFormats = ['json', 'xml', 'hal']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
