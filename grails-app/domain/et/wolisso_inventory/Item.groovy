@@ -1,4 +1,5 @@
 package et.wolisso_inventory
+import et.wolisso_inventory.enums.ItemStatus
 
 class Item {
 
@@ -8,6 +9,7 @@ class Item {
 	String description
     BigDecimal price
     boolean isDonation = false
+    ItemStatus status
 
     Date deliveryDate
 	Date dateCreated

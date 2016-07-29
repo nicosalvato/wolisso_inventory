@@ -1,6 +1,7 @@
 import et.wolisso_inventory.Item
 import et.wolisso_inventory.Report
 import et.wolisso_inventory.Maintenance
+import et.wolisso_inventory.enums.ItemStatus
 
 class BootStrap {
 
@@ -15,7 +16,8 @@ class BootStrap {
 		    			description: "Description for item $it",
                         price: it % 3 * 250.0,
                         isDonation: it % 3 == 0,
-                        deliveryDate: new Date(2016 - 1900 - it, it, 28 % it)
+                        deliveryDate: new Date(2016 - 1900 - it, it, 28 % it),
+                        status: ItemStatus.OK
 		    		).save flush: true	
 		    	}
                 def categories = ['OUT_OF_SERVICE', 'CONSUMABLE_MISSING', 'REPARING', 'REPAIRED']
@@ -36,7 +38,9 @@ class BootStrap {
                 new Item(
                     code: "AAA",
                     name: "Aaa",
-                    price: it * 100.0
+                    price: it * 100.0,
+                    deliveryDate: new Date(),
+                    status: ItemStatus.OK
                 ).save flush: true  
             }
     	}
