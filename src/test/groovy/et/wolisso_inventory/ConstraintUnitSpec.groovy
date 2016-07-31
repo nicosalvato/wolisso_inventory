@@ -2,10 +2,10 @@ import spock.lang.Specification
 
 abstract class ConstraintUnitSpec extends Specification {
     String getLongString(Integer length) {
-       'a' * length
-   }
+        'a' * length
+    }
 
-   void validateConstraints(obj, field, error) {
+    void validateConstraints(obj, field, error) {
         def validated = obj.validate()
         if (error && error != 'valid') {
             assert !validated

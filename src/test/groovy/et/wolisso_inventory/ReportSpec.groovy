@@ -10,13 +10,13 @@ import spock.lang.Unroll
 @TestFor(Report)
 class ReportSpec extends ConstraintUnitSpec {
 
-	Item item
-	
-	def setup() {
-    	item = new Item(code: 'ABC', name: 'Abc', deliveryDate: new Date())
+    Item item
+
+    def setup() {
+        item = new Item(code: 'ABC', name: 'Abc', deliveryDate: new Date())
     }
 
-	@Unroll("test Report #error constraint for field #field")
+    @Unroll("test Report #error constraint for field #field")
     void "test report constraints"() {
         when:
         def obj = new Report("$field": val)
@@ -25,14 +25,14 @@ class ReportSpec extends ConstraintUnitSpec {
         validateConstraints(obj, field, error)
 
         where:
-        error                  | field              | val
-        'nullable'             | 'item'             | null
-        'nullable'             | 'category'         | null
-        'not.inList'           | 'category'         | 'WRONG'
+        error        | field      | val
+        'nullable'   | 'item'     | null
+        'nullable'   | 'category' | null
+        'not.inList' | 'category' | 'WRONG'
     }
 
     void "test validation success"() {
-    	expect: "validation successful"
-    		new Report(item: item, category: 'OUT_OF_SERVICE').validate()
+        expect: "validation successful"
+        new Report(item: item, category: 'OUT_OF_SERVICE').validate()
     }
 }

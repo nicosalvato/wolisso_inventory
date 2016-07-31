@@ -38,7 +38,7 @@ class BootStrap {
                 new Item(
                     code: "AAA",
                     name: "Aaa",
-                    price: it * 100.0,
+                    price: 100.0,
                     deliveryDate: new Date(),
                     status: ItemStatus.OK
                 ).save flush: true  

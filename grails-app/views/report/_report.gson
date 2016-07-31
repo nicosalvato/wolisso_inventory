@@ -4,4 +4,5 @@ model {
 	Report report
 }
 
-json g.render(report, [excludes: ['id', 'version']])
+//json g.render(report, [excludes: ['id', 'version']])
+json g.render(report)

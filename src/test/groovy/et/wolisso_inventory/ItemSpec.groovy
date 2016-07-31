@@ -3,6 +3,7 @@ package et.wolisso_inventory
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 import spock.lang.Unroll
+import et.wolisso_inventory.enums.ItemStatus
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
@@ -13,7 +14,7 @@ class ItemSpec extends ConstraintUnitSpec {
     @Unroll("test Item #error constraint for field #field")
     void "test item constraints"() {
         setup:
-        new Item(code: 'CODE', name: 'Eh', price: 1.2, deliveryDate: new Date()).save(flush: true)
+        new Item(code: 'CODE', name: 'Eh', price: 1.2, deliveryDate: new Date(), status: ItemStatus.OK).save(flush: true)
         /* See http://stackoverflow.com/questions/30047904/unique-constraint-validation-now-passes-in-grails-after-migration-from-2-2-to-2, no comment!*/
 
         when:
@@ -28,6 +29,7 @@ class ItemSpec extends ConstraintUnitSpec {
         'nullable'             | 'name'             | null
         'nullable'             | 'price'            | null
         'nullable'             | 'deliveryDate'     | null
+        'nullable'             | 'status'           | null
         'unique'               | 'code'             | 'CODE'
         'maxSize.exceeded'     | 'code'             | getLongString(65)
         'maxSize.exceeded'     | 'name'             | getLongString(129)
@@ -37,6 +39,6 @@ class ItemSpec extends ConstraintUnitSpec {
 
     void "test validation success"() {
         expect: "validation successful"
-            new Item(code: 'CC', name: 'Cc', price: 1.2, deliveryDate: new Date()).validate()
+            new Item(code: 'CC', name: 'Cc', price: 1.2, deliveryDate: new Date(), status: ItemStatus.OK).validate()
     }
 }

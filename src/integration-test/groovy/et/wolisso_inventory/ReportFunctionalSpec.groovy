@@ -22,7 +22,7 @@ class ReportFunctionalSpec extends GebSpec {
 
     Closure getValidJson() {{->
         [
-            item: Item.load(1).id,
+            item: Item.load(1),
             category: 'OUT_OF_SERVICE'
         ]
     }}

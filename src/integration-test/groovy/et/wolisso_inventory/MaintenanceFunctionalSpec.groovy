@@ -17,15 +17,19 @@ class MaintenanceFunctionalSpec extends GebSpec {
     }
 
     String getResourcePath() {
-        assert false, "TODO: provide the path to your resource. Example: \"${baseUrl}/books\""
+        "${baseUrl}/maintenance"
     }
 
     Closure getValidJson() {{->
-        assert false, "TODO: provide valid JSON"
+        [
+            maintenanceDate: new Date(),
+            cost: 234.56,
+            item: Item.load(1)
+        ]
     }}
 
     Closure getInvalidJson() {{->        
-        assert false, "TODO: provide invalid JSON"
+        [ cost: -23.4 ]
     }}    
 
     void "Test the index action"() {

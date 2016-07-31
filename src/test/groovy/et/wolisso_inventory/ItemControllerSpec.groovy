@@ -3,6 +3,7 @@ package et.wolisso_inventory
 import grails.test.mixin.*
 import spock.lang.*
 import static org.springframework.http.HttpStatus.*
+import et.wolisso_inventory.enums.ItemStatus
 
 @TestFor(ItemController)
 @Mock(Item)
@@ -16,6 +17,7 @@ class ItemControllerSpec extends Specification {
         params["description"] = 'Test description'
         params['price'] = 100.0
         params['deliveryDate'] = new Date()
+        params['status'] = ItemStatus.OK
     }
 
     void "Test the index action returns the correct response"() {

@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
+import et.wolisso_inventory.enums.ItemStatus
 
 @Integration
 @Rollback
@@ -20,12 +21,13 @@ class ItemFunctionalSpec extends GebSpec {
         "${baseUrl}/items"
     }
 
-    Closure getValidJson(String aCode) {{ ->
+    Closure getValidJson(aCode) {{ ->
         [
-            code: "FTESTCODE${aCode}",
-            externalCode: "FTESTEXTCODE-${aCode}",
-            name: "Ftest Name ${aCode}",
-            description: "Ftest description ${aCode}"
+            code: "$aCode",
+            name: "Test",
+            price: 234.6,
+            deliveryDate: new Date(),
+            status: "OK",
         ]
     }}
 
@@ -41,7 +43,6 @@ class ItemFunctionalSpec extends GebSpec {
 
         then:"The response is correct"
         response.status == OK.value()
-        response.json == []
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -60,6 +61,7 @@ class ItemFunctionalSpec extends GebSpec {
 
 
         when:"The save action is executed with valid data"
+        def initialCount = Item.count()
         response = restBuilder.post(resourcePath) {
             json getValidJson('CODE01')
         }        
@@ -67,7 +69,7 @@ class ItemFunctionalSpec extends GebSpec {
         then:"The response is correct"
         response.status == CREATED.value()
         response.json.id
-        Item.count() == 1
+        Item.count() == initialCount + 1
     }
 
     void "Test the update action correctly updates an instance"() {

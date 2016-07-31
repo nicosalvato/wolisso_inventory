@@ -10,13 +10,13 @@ import spock.lang.Unroll
 @TestFor(Maintenance)
 class MaintenanceSpec extends ConstraintUnitSpec {
 
-	Item item
-	
-	def setup() {
-    	item = new Item(code: 'ABC', name: 'Abc', price: 123.4, deliveryDate: new Date())
+    Item item
+
+    def setup() {
+        item = new Item(code: 'ABC', name: 'Abc', price: 123.4, deliveryDate: new Date())
     }
 
-	@Unroll("test Maintenance #error constraint for field #field")
+    @Unroll("test Maintenance #error constraint for field #field")
     void "test constraints"() {
         when:
         def obj = new Maintenance("$field": val)
@@ -25,15 +25,15 @@ class MaintenanceSpec extends ConstraintUnitSpec {
         validateConstraints(obj, field, error)
 
         where:
-        error                  | field              | val
-        'nullable'             | 'item'             | null
-        'nullable'             | 'cost'             | null
-        'nullable'             | 'maintenanceDate'  | null
-        'min.notmet'           | 'cost'             | -1.2
+        error        | field             | val
+        'nullable'   | 'item'            | null
+        'nullable'   | 'cost'            | null
+        'nullable'   | 'maintenanceDate' | null
+        'min.notmet' | 'cost'            | -1.2
     }
 
     void "test validation success"() {
-    	expect: "validation successful"
-    		new Maintenance(item: item, cost: 300, maintenanceDate: new Date()).validate()
+        expect: "validation successful"
+        new Maintenance(item: item, cost: 300, maintenanceDate: new Date()).validate()
     }
 }
