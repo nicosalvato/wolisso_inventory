@@ -10,10 +10,8 @@ class ReportControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-
-        // TODO: Populate valid properties like...
-        params["item"] = new Item(code: 'I', name: 'I')
-        params["category"] = "OUT_OF_SERVICE"
+        params["item"] = new Item(code: 'I', name: 'I', price: 123.4, deliveryDate: new Date())
+        params["category"] = "CONSUMABLE_MISSING"
     }
 
     void "Test the index action returns the correct response"() {
@@ -126,6 +124,5 @@ class ReportControllerSpec extends Specification {
         then: "The instance is deleted"
         Report.count() == 0
         response.status == NO_CONTENT.value()
-
     }
 }

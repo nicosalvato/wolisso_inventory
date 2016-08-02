@@ -7,6 +7,8 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
+import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.enums.ItemStatusTransition
 
 @Integration
 @Rollback
@@ -20,10 +22,11 @@ class ReportFunctionalSpec extends GebSpec {
         "${baseUrl}/reports"
     }
 
-    Closure getValidJson() {{->
+    Closure getValidJson(String transition = null) {{->
         [
-            item: Item.load(1),
-            category: 'OUT_OF_SERVICE'
+            item: Item.load(1).resetStatus(),
+            category: 'OUT_OF_SERVICE',
+            transition: "DECLARE_KO"
         ]
     }}
 
@@ -65,6 +68,7 @@ class ReportFunctionalSpec extends GebSpec {
         then:"The response is correct"
         response.status == CREATED.value()
         response.json.id
+        response.json.item.status == "KO"
         Report.count() == 1
     }
 

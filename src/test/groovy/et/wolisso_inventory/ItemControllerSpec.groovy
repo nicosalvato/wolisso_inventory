@@ -141,6 +141,5 @@ class ItemControllerSpec extends Specification {
         then:"The instance is deleted"
             Item.count() == 0
             response.status == NO_CONTENT.value()
-            
     }
 }

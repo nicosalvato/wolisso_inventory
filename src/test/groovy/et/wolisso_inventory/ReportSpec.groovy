@@ -31,8 +31,23 @@ class ReportSpec extends ConstraintUnitSpec {
         'not.inList' | 'category' | 'WRONG'
     }
 
+    @Unroll("test Report transition constraint for category #val")
+    void "test report constraints"() {
+        when:
+        def obj = new Report("$field": null, category: val)
+
+        then:
+        validateConstraints(obj, field, error)
+
+        where:
+        error                  | field        | val
+        'invalid.transition'   | 'transition' | 'OUT_OF_SERVICE'
+        'invalid.transition'   | 'transition' | 'REPARING'
+        'invalid.transition'   | 'transition' | 'REPAIRED'
+    }
+
     void "test validation success"() {
         expect: "validation successful"
-        new Report(item: item, category: 'OUT_OF_SERVICE').validate()
+        new Report(item: item, category: 'OUT_OF_SERVICE', transition: 'FIX').validate()
     }
 }

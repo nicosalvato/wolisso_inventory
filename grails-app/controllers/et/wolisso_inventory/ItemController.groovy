@@ -58,7 +58,6 @@ class ItemController {
 
     @Transactional
     def delete(Item item) {
-
         if (item == null) {
             transactionStatus.setRollbackOnly()
             render status: NOT_FOUND

@@ -40,6 +40,8 @@ class ReportController {
             return
         }
 
+        if (report.transition)
+            report.item.fire(report.transition).save flush: true
         report.save flush:true
 
         respond report, [status: CREATED, view:"show"]
