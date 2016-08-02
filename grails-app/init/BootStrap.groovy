@@ -32,9 +32,11 @@ class BootStrap {
 		    	}
                 def categories = ['OUT_OF_SERVICE', 'CONSUMABLE_MISSING', 'REPARING', 'REPAIRED']
                 (1..10).each {
+                    def category = categories[it % 4]
                     new Report(
                         item: Item.load(it % 5 + 1),
-                        category: categories[it % 4]
+                        category: category,
+                        transition: category == 'CONSUMABLE_MISSING' ? null : ItemStatusTransition.RESTORE
                     ).save()
 
                     new Maintenance(
