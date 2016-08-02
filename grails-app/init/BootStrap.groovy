@@ -2,10 +2,20 @@ import et.wolisso_inventory.Item
 import et.wolisso_inventory.Report
 import et.wolisso_inventory.Maintenance
 import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.enums.ItemStatusTransition
 
 class BootStrap {
 
+    def itemFsm
+
     def init = { servletContext ->
+
+        def recorder = itemFsm.record()
+        recorder.on(ItemStatusTransition.DECLARE_KO).from(ItemStatus.OK).to(ItemStatus.KO)
+        recorder.on(ItemStatusTransition.FIX).from(ItemStatus.KO).to(ItemStatus.FIXING)
+        recorder.on(ItemStatusTransition.RESTORE).from(ItemStatus.FIXING).to(ItemStatus.OK)
+        recorder.on(ItemStatusTransition.RESTORE).from(ItemStatus.KO).to(ItemStatus.OK)
+
     	environments {
     		development {
     			(1..5).each {

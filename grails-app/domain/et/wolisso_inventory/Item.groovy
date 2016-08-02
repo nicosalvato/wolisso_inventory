@@ -1,7 +1,10 @@
 package et.wolisso_inventory
 import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.enums.ItemStatusTransition
 
 class Item {
+
+    def itemFsm
 
 	String code
 	String externalCode
@@ -9,7 +12,7 @@ class Item {
 	String description
     BigDecimal price
     boolean isDonation = false
-    ItemStatus status
+    ItemStatus status = ItemStatus.OK
 
     Date deliveryDate
 	Date dateCreated
@@ -22,6 +25,8 @@ class Item {
     	description nullable: true, blank: true, maxSize: 1024
         price min: 0.0
     }
+
+    static transients = ['itemFSM']
 
     String toString() {
     	name.capitalize()
@@ -38,5 +43,16 @@ class Item {
                 sqlProjection 'sum(cost) as totalMaintenance', 'totalMaintenance', BIGDECIMAL
             }
         }?.totalMaintenance
+    }
+
+    Item fire(ItemStatusTransition event) {
+        this.status = itemFsm.fire(event)
+        this
+    }
+
+    Item resetStatus() {
+        this.status = ItemStatus.OK
+        itemFsm.reset()
+        this
     }
 }
