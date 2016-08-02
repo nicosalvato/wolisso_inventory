@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
+import et.wolisso_inventory.enums.ItemStatusTransition
 import et.wolisso_inventory.enums.ItemStatus
 
 @Integration
@@ -146,5 +147,22 @@ class ItemFunctionalSpec extends GebSpec {
         then:"The response is correct"
         response.status == NO_CONTENT.value()        
         !Item.get(id)
-    }    
+    }
+
+    void "Test status finite state machine"() {
+        when: "item staus is OK"
+        def item = new Item(code: "FSM", name:"FSM test", status: "OK")
+
+        then: "then KO-FIXING-OK cycle works"
+        item.fire(ItemStatusTransition.DECLARE_KO).status == ItemStatus.KO
+        item.fire(ItemStatusTransition.FIX).status == ItemStatus.FIXING
+        item.fire(ItemStatusTransition.RESTORE).status == ItemStatus.OK
+
+        when: "item status is KO"
+        item.resetStatus()
+        item.fire(ItemStatusTransition.DECLARE_KO)
+
+        then: "it can go back to ok"
+        item.fire(ItemStatusTransition.RESTORE).status == ItemStatus.OK
+    }
 }
