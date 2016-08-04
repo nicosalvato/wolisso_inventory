@@ -3,22 +3,14 @@ package et.wolisso_inventory
 import grails.test.mixin.*
 import spock.lang.*
 import static org.springframework.http.HttpStatus.*
-import et.wolisso_inventory.enums.ItemStatus
 
-@TestFor(ItemController)
-@Mock([Item, Manufacturer])
-class ItemControllerSpec extends Specification {
+@TestFor(ManufacturerController)
+@Mock(Manufacturer)
+class ManufacturerControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        params["code"] = 'TC'
-        params["externalCode"] = 'TC'
-        params["name"] = 'Test Code'
-        params["description"] = 'Test description'
-        params['price'] = 100.0
-        params['deliveryDate'] = new Date()
-        params['status'] = ItemStatus.OK
-        params['manufacturer'] = new Manufacturer(country: 'India')
+        params['country'] = 'China'
     }
 
     void "Test the index action returns the correct response"() {
@@ -36,36 +28,25 @@ class ItemControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
-            def item = new Item()
-            item.validate()
-            controller.save(item)
+            def manufacturer = new Manufacturer()
+            manufacturer.validate()
+            controller.save(manufacturer)
 
         then:"The create view is rendered again with the correct model"
             response.status == UNPROCESSABLE_ENTITY.value()
             response.json.errors
 
         when:"The save action is executed with a valid instance"
-            def initialCount = Item.count()
             response.reset()
             populateValidParams(params)
-            item = new Item(params)
+            manufacturer = new Manufacturer(params)
 
-            controller.save(item)
+            controller.save(manufacturer)
 
         then:"A redirect is issued to the show action"
-            Item.count() == initialCount + 1
+            Manufacturer.count() == 1
             response.status == CREATED.value()
-            response.json  
-
-        when: "An instance with duplicated code is saved"
-            response.reset()
-            populateValidParams(params)
-            item = new Item(params)
-            controller.save()
-
-        then: "The create view is rendered again"
-            response.status == UNPROCESSABLE_ENTITY.value()
-            response.json.errors          
+            response.json            
     }
 
     void "Test that the show action returns the correct model"() {
@@ -78,11 +59,11 @@ class ItemControllerSpec extends Specification {
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
             response.reset()
-            def item= new Item(params).save()
-            controller.show(item)
+            def manufacturer= new Manufacturer(params).save()
+            controller.show(manufacturer)
 
         then:"A model is populated containing the domain instance"
-            item!= null
+            manufacturer!= null
             response.status == OK.value()
             response.json
     }
@@ -98,9 +79,9 @@ class ItemControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def item= new Item()
-            item.validate()
-            controller.update(item)
+            def manufacturer= new Manufacturer()
+            manufacturer.validate()
+            controller.update(manufacturer)
 
         then:"The edit view is rendered again with the invalid instance"
             response.status == UNPROCESSABLE_ENTITY.value()
@@ -109,13 +90,13 @@ class ItemControllerSpec extends Specification {
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            item= new Item(params).save(flush: true)
-            controller.update(item)
+            manufacturer= new Manufacturer(params).save(flush: true)
+            controller.update(manufacturer)
 
         then:"A redirect is issued to the show action"
-            item!= null
+            manufacturer!= null
             response.status == OK.value()
-            response.json.id == item.id
+            response.json.id == manufacturer.id
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
@@ -131,16 +112,17 @@ class ItemControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def item= new Item(params).save(flush: true)
+            def manufacturer= new Manufacturer(params).save(flush: true)
 
         then:"It exists"
-            Item.count() == 1
+            Manufacturer.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(item)
+            controller.delete(manufacturer)
 
         then:"The instance is deleted"
-            Item.count() == 0
+            Manufacturer.count() == 0
             response.status == NO_CONTENT.value()
+            
     }
 }

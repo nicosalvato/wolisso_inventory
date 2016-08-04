@@ -13,6 +13,8 @@ class UrlMappings {
         "/items"(resources: "item")
         "/reports"(resources: "report")
         "/maintenance"(resources: "maintenance")
+        "/maintenanceProviders"(resources: "maintenanceProvider")
+        "/manufacturers"(resources: "manufacturer")
         "500"(view: '/error')
         "404"(view: '/notFound')
     }

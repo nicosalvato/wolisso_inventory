@@ -1,0 +1,7 @@
+import et.wolisso_inventory.Manufacturer
+
+model {
+	Manufacturer manufacturer
+}
+
+json g.render(manufacturer)

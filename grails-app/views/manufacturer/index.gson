@@ -1,0 +1,8 @@
+import et.wolisso_inventory.Manufacturer
+
+model {
+	Iterable<Manufacturer> manufacturerList
+}
+
+json tmpl.manufacturer(manufacturerList ?: [])
+

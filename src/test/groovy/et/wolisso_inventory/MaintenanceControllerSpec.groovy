@@ -5,7 +5,7 @@ import spock.lang.*
 import static org.springframework.http.HttpStatus.*
 
 @TestFor(MaintenanceController)
-@Mock(Maintenance)
+@Mock([Maintenance, Item])
 class MaintenanceControllerSpec extends Specification {
 
     def populateValidParams(params) {
@@ -110,7 +110,6 @@ class MaintenanceControllerSpec extends Specification {
         then: "A 404 is returned"
         response.status == NOT_FOUND.value()
 
-
         when: "A domain instance is created"
         response.reset()
         populateValidParams(params)
@@ -125,6 +124,5 @@ class MaintenanceControllerSpec extends Specification {
         then: "The instance is deleted"
         Maintenance.count() == 0
         response.status == NO_CONTENT.value()
-
     }
 }

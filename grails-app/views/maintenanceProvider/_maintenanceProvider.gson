@@ -1,0 +1,7 @@
+import et.wolisso_inventory.MaintenanceProvider
+
+model {
+	MaintenanceProvider maintenanceProvider
+}
+
+json g.render(maintenanceProvider)

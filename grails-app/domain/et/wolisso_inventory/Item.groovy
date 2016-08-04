@@ -13,6 +13,7 @@ class Item {
     BigDecimal price
     boolean isDonation = false
     ItemStatus status = ItemStatus.OK
+    Manufacturer manufacturer
 
     Date deliveryDate
     Date dateCreated

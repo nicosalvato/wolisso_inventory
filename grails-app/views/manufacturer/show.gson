@@ -1,0 +1,7 @@
+import et.wolisso_inventory.Manufacturer
+
+model {
+	Manufacturer manufacturer
+}
+
+json tmpl.manufacturer(manufacturer)

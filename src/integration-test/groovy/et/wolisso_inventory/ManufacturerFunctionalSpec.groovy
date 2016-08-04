@@ -7,32 +7,29 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
-import et.wolisso_inventory.enums.ItemStatus
-import et.wolisso_inventory.enums.ItemStatusTransition
 
 @Integration
 @Rollback
-class ReportFunctionalSpec extends GebSpec {
+class ManufacturerFunctionalSpec extends GebSpec {
 
     RestBuilder getRestBuilder() {
         new RestBuilder()
     }
 
     String getResourcePath() {
-        "${baseUrl}/reports"
+        "${baseUrl}/manufacturers"
     }
 
-    Closure getValidJson(String category = null, String transition = null) {{->
+    Closure getValidJson() {{->
         [
-            item: Item.load(1),
-            category: category ?: 'CONSUMABLE_MISSING',
-            transition: transition ?: null
+            name: 'Pezzi a caso Srl',
+            country: 'Italy'
         ]
     }}
 
     Closure getInvalidJson() {{->        
         [
-            category: 'INVALID'
+            country: null
         ]
     }}    
 
@@ -42,7 +39,6 @@ class ReportFunctionalSpec extends GebSpec {
 
         then:"The response is correct"
         response.status == OK.value()
-        response.json == []
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -61,15 +57,15 @@ class ReportFunctionalSpec extends GebSpec {
 
 
         when:"The save action is executed with valid data"
+        def initialCount = Manufacturer.count()
         response = restBuilder.post(resourcePath) {
-            json getValidJson('OUT_OF_SERVICE', 'DECLARE_KO')
+            json validJson
         }        
 
         then:"The response is correct"
         response.status == CREATED.value()
         response.json.id
-        response.json.item.status == ItemStatus.KO as String
-        Report.count() == 1
+        Manufacturer.count() == ++initialCount
     }
 
     void "Test the update action correctly updates an instance"() {
@@ -99,7 +95,6 @@ class ReportFunctionalSpec extends GebSpec {
         then:"The response is correct"
         response.status == OK.value()        
         response.json
-
     }    
 
     void "Test the show action correctly renders an instance"() {
@@ -143,6 +138,6 @@ class ReportFunctionalSpec extends GebSpec {
 
         then:"The response is correct"
         response.status == NO_CONTENT.value()        
-        !Report.get(id)
+        !Manufacturer.get(id)
     }    
 }

@@ -1,6 +1,7 @@
 import et.wolisso_inventory.Item
 import et.wolisso_inventory.Report
 import et.wolisso_inventory.Maintenance
+import et.wolisso_inventory.Manufacturer
 import et.wolisso_inventory.enums.ItemStatus
 import et.wolisso_inventory.enums.ItemStatusTransition
 
@@ -8,6 +9,7 @@ class BootStrap {
     def init = { servletContext ->
     	environments {
     		development {
+                def manufacturer = new Manufacturer(country: 'China').save(flush: true)
     			(1..5).each {
 		    		new Item(
 		    			code: "CODE$it",
@@ -17,7 +19,8 @@ class BootStrap {
                         price: it % 3 * 250.0,
                         isDonation: it % 3 == 0,
                         deliveryDate: new Date(2016 - 1900 - it, it, 28 % it),
-                        status: ItemStatus.OK
+                        status: ItemStatus.OK,
+                        manufacturer: manufacturer
 		    		).save flush: true	
 		    	}
                 def categories = ['OUT_OF_SERVICE', 'CONSUMABLE_MISSING', 'REPARING', 'REPAIRED']
@@ -37,11 +40,13 @@ class BootStrap {
                 }
     		}
             test {
+                def manufacturer = new Manufacturer(country: 'China').save flush: true
                 new Item(
                     code: "DDD",
                     name: "Ddd",
                     price: 100.0,
-                    deliveryDate: new Date()
+                    deliveryDate: new Date(),
+                    manufacturer: manufacturer
                 ).save flush: true
                 
                 new Item(
@@ -49,15 +54,16 @@ class BootStrap {
                     name: "Eee",
                     price: 120.0,
                     deliveryDate: new Date(),
-                    status: ItemStatus.KO
+                    status: ItemStatus.KO,
+                    manufacturer: manufacturer
                 ).save(flush: true)
 
-                new Item(
-                    code: "BBB",
-                    name: "Bbb",
-                    price: 90.0,
-                    deliveryDate: new Date()
-                ).save flush: true
+                // new Item(
+                //     code: "BBB",
+                //     name: "Bbb",
+                //     price: 90.0,
+                //     deliveryDate: new Date()
+                // ).save flush: true
             }
     	}
     }

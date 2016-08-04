@@ -4,7 +4,6 @@ import et.wolisso_inventory.Item
 import et.wolisso_inventory.Report
 import et.wolisso_inventory.Maintenance
 import et.wolisso_inventory.enums.ItemStatus
-import et.wolisso_inventory.utils.FiniteStateMachine
 
 beans = {
 	// HAL renderers, they kick in when Accept header in the request is set to json+hal

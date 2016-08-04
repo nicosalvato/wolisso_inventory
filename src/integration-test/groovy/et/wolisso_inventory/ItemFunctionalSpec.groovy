@@ -9,6 +9,7 @@ import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
 import et.wolisso_inventory.enums.ItemStatusTransition
 import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.exceptions.IllegalTransitionException
 
 @Integration
 @Rollback
@@ -29,6 +30,7 @@ class ItemFunctionalSpec extends GebSpec {
             price: 234.6,
             deliveryDate: new Date(),
             status: "OK",
+            manufacturer: Manufacturer.load(1)
         ]
     }}
 
@@ -163,5 +165,13 @@ class ItemFunctionalSpec extends GebSpec {
 
         then: "it can go back to ok"
         item.fire(ItemStatusTransition.RESTORE).status == ItemStatus.OK
+
+        when: "item wrong ransition is called"
+        item.status = ItemStatus.OK
+        item.fire(ItemStatusTransition.RESTORE)
+
+        then: "exception is thrown"
+        IllegalTransitionException ex = thrown()
+        ex.message == 'No transition RESTORE available for initial state OK'
     }
 }

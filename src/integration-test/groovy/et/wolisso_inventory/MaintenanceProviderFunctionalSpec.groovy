@@ -7,32 +7,29 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
-import et.wolisso_inventory.enums.ItemStatus
-import et.wolisso_inventory.enums.ItemStatusTransition
 
 @Integration
 @Rollback
-class ReportFunctionalSpec extends GebSpec {
+class MaintenanceProviderFunctionalSpec extends GebSpec {
 
     RestBuilder getRestBuilder() {
         new RestBuilder()
     }
 
     String getResourcePath() {
-        "${baseUrl}/reports"
+        "${baseUrl}/maintenanceProviders"
     }
 
-    Closure getValidJson(String category = null, String transition = null) {{->
+    Closure getValidJson() {{->
         [
-            item: Item.load(1),
-            category: category ?: 'CONSUMABLE_MISSING',
-            transition: transition ?: null
+            name: 'Il Ciappinaro',
+            country: 'Italy'
         ]
     }}
 
     Closure getInvalidJson() {{->        
         [
-            category: 'INVALID'
+            name: ''
         ]
     }}    
 
@@ -62,14 +59,13 @@ class ReportFunctionalSpec extends GebSpec {
 
         when:"The save action is executed with valid data"
         response = restBuilder.post(resourcePath) {
-            json getValidJson('OUT_OF_SERVICE', 'DECLARE_KO')
+            json validJson
         }        
 
         then:"The response is correct"
         response.status == CREATED.value()
         response.json.id
-        response.json.item.status == ItemStatus.KO as String
-        Report.count() == 1
+        MaintenanceProvider.count() == 1
     }
 
     void "Test the update action correctly updates an instance"() {
@@ -143,6 +139,6 @@ class ReportFunctionalSpec extends GebSpec {
 
         then:"The response is correct"
         response.status == NO_CONTENT.value()        
-        !Report.get(id)
+        !MaintenanceProvider.get(id)
     }    
 }
