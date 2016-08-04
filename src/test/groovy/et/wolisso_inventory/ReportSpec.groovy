@@ -49,5 +49,6 @@ class ReportSpec extends ConstraintUnitSpec {
     void "test validation success"() {
         expect: "validation successful"
         new Report(item: item, category: 'OUT_OF_SERVICE', transition: 'FIX').validate()
+        new Report(item: item, category: 'CONSUMABLE_MISSING').validate()
     }
 }

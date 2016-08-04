@@ -5,17 +5,7 @@ import et.wolisso_inventory.enums.ItemStatus
 import et.wolisso_inventory.enums.ItemStatusTransition
 
 class BootStrap {
-
-    def itemFsm
-
     def init = { servletContext ->
-
-        def recorder = itemFsm.record()
-        recorder.on(ItemStatusTransition.DECLARE_KO).from(ItemStatus.OK).to(ItemStatus.KO)
-        recorder.on(ItemStatusTransition.FIX).from(ItemStatus.KO).to(ItemStatus.FIXING)
-        recorder.on(ItemStatusTransition.RESTORE).from(ItemStatus.FIXING).to(ItemStatus.OK)
-        recorder.on(ItemStatusTransition.RESTORE).from(ItemStatus.KO).to(ItemStatus.OK)
-
     	environments {
     		development {
     			(1..5).each {
@@ -48,12 +38,26 @@ class BootStrap {
     		}
             test {
                 new Item(
-                    code: "AAA",
-                    name: "Aaa",
+                    code: "DDD",
+                    name: "Ddd",
                     price: 100.0,
+                    deliveryDate: new Date()
+                ).save flush: true
+                
+                new Item(
+                    code: "EEE",
+                    name: "Eee",
+                    price: 120.0,
                     deliveryDate: new Date(),
-                    status: ItemStatus.OK
-                ).save flush: true  
+                    status: ItemStatus.KO
+                ).save(flush: true)
+
+                new Item(
+                    code: "BBB",
+                    name: "Bbb",
+                    price: 90.0,
+                    deliveryDate: new Date()
+                ).save flush: true
             }
     	}
     }

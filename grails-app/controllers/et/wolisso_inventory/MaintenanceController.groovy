@@ -2,6 +2,8 @@ package et.wolisso_inventory
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.enums.ItemStatusTransition
 
 @Transactional(readOnly = true)
 class MaintenanceController {
@@ -31,7 +33,8 @@ class MaintenanceController {
             respond maintenance.errors, view:'create'
             return
         }
-
+        if (maintenance.item.status == ItemStatus.KO)
+            maintenance.item.fire(ItemStatusTransition.FIX).save(flush: true)
         maintenance.save flush:true
 
         respond maintenance, [status: CREATED, view:"show"]

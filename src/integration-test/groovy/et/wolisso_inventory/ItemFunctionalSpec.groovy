@@ -151,7 +151,7 @@ class ItemFunctionalSpec extends GebSpec {
 
     void "Test status finite state machine"() {
         when: "item staus is OK"
-        def item = new Item(code: "FSM", name:"FSM test", status: "OK")
+        def item = new Item(code: "FSM", name:"FSM test")
 
         then: "then KO-FIXING-OK cycle works"
         item.fire(ItemStatusTransition.DECLARE_KO).status == ItemStatus.KO
@@ -159,8 +159,7 @@ class ItemFunctionalSpec extends GebSpec {
         item.fire(ItemStatusTransition.RESTORE).status == ItemStatus.OK
 
         when: "item status is KO"
-        item.resetStatus()
-        item.fire(ItemStatusTransition.DECLARE_KO)
+        item.status = ItemStatus.KO
 
         then: "it can go back to ok"
         item.fire(ItemStatusTransition.RESTORE).status == ItemStatus.OK

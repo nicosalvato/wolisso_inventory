@@ -14,6 +14,4 @@ beans = {
     halReportCollectionRenderer(HalJsonCollectionRenderer, et.wolisso_inventory.Report)
 	halMaintenanceRenderer(HalJsonRenderer, et.wolisso_inventory.Maintenance)
     halMaintenanceCollectionRenderer(HalJsonCollectionRenderer, et.wolisso_inventory.Maintenance)
-
-    itemFsm(FiniteStateMachine, ItemStatus.OK)
 }

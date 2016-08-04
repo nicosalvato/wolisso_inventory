@@ -24,7 +24,7 @@ class ReportFunctionalSpec extends GebSpec {
 
     Closure getValidJson(String transition = null) {{->
         [
-            item: Item.load(1).resetStatus(),
+            item: Item.findByStatus(ItemStatus.OK),
             category: 'OUT_OF_SERVICE',
             transition: "DECLARE_KO"
         ]
@@ -68,7 +68,7 @@ class ReportFunctionalSpec extends GebSpec {
         then:"The response is correct"
         response.status == CREATED.value()
         response.json.id
-        response.json.item.status == "KO"
+        response.json.item.status == ItemStatus.KO as String
         Report.count() == 1
     }
 

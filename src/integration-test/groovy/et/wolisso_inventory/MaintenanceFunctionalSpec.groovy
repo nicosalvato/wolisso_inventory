@@ -7,6 +7,8 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
+import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.enums.ItemStatusTransition
 
 @Integration
 @Rollback
@@ -140,4 +142,22 @@ class MaintenanceFunctionalSpec extends GebSpec {
         response.status == NO_CONTENT.value()        
         !Maintenance.get(id)
     }    
+
+    void "test that the save action fires an item status transition"() {
+        when:"The save action is executed with valid data and item is on KO status"
+        def response = restBuilder.post(resourcePath) {
+            json {->
+                [
+                    maintenanceDate: new Date(),
+                    cost: 234.56,
+                    item: Item.load(2)
+                ]
+            }
+        }        
+
+        then:"The response is correct"
+        response.status == CREATED.value()
+        response.json.id
+        response.json.item.status == ItemStatus.FIXING as String
+    }
 }

@@ -4,29 +4,27 @@ import et.wolisso_inventory.enums.ItemStatusTransition
 
 class Item {
 
-    def itemFsm
+    def statusTransitionService
 
-	String code
-	String externalCode
-	String name
-	String description
+    String code
+    String externalCode
+    String name
+    String description
     BigDecimal price
     boolean isDonation = false
     ItemStatus status = ItemStatus.OK
 
     Date deliveryDate
-	Date dateCreated
-	Date lastUpdated
+    Date dateCreated
+    Date lastUpdated
 
     static constraints = {
-    	code nullable: false, blank: false, unique: true, maxSize: 64
-    	externalCode nullable: true, blank: true, maxSize: 64
-    	name nullable: false, blank: false, maxSize: 128
-    	description nullable: true, blank: true, maxSize: 1024
+        code nullable: false, blank: false, unique: true, maxSize: 64
+        externalCode nullable: true, blank: true, maxSize: 64
+        name nullable: false, blank: false, maxSize: 128
+        description nullable: true, blank: true, maxSize: 1024
         price min: 0.0
     }
-
-    static transients = ['itemFSM']
 
     String toString() {
     	name.capitalize()
@@ -45,14 +43,8 @@ class Item {
         }?.totalMaintenance
     }
 
-    Item fire(ItemStatusTransition event) {
-        this.status = itemFsm.fire(event)
-        this
-    }
-
-    Item resetStatus() {
-        this.status = ItemStatus.OK
-        itemFsm.reset()
+    Item fire(ItemStatusTransition a_transition) {
+        this.status = statusTransitionService.fire(a_transition, this.status)
         this
     }
 }
