@@ -151,7 +151,7 @@ class ItemFunctionalSpec extends GebSpec {
         !Item.get(id)
     }
 
-    void "Test status finite state machine"() {
+    void "Test status transitions"() {
         when: "item staus is OK"
         def item = new Item(code: "FSM", name:"FSM test")
 
