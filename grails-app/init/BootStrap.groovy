@@ -23,13 +23,12 @@ class BootStrap {
                         manufacturer: manufacturer
 		    		).save flush: true	
 		    	}
-                def categories = ['OUT_OF_SERVICE', 'CONSUMABLE_MISSING', 'REPARING', 'REPAIRED']
+                def categories = ['KO', 'FIX', 'OK', 'CONSUMABLE_MISSING']
                 (1..10).each {
-                    def category = categories[it % 4]
                     new Report(
                         item: Item.load(it % 5 + 1),
-                        category: category,
-                        transition: category == 'CONSUMABLE_MISSING' ? null : ItemStatusTransition.RESTORE
+                        category: categories[it % 4],
+                        status: 'ISSUED'
                     ).save()
 
                     new Maintenance(
@@ -57,13 +56,6 @@ class BootStrap {
                     status: ItemStatus.KO,
                     manufacturer: manufacturer
                 ).save(flush: true)
-
-                // new Item(
-                //     code: "BBB",
-                //     name: "Bbb",
-                //     price: 90.0,
-                //     deliveryDate: new Date()
-                // ).save flush: true
             }
     	}
     }

@@ -10,8 +10,9 @@ class ReportControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        params["item"] = new Item(code: 'I', name: 'I', price: 123.4, deliveryDate: new Date())
-        params["category"] = "CONSUMABLE_MISSING"
+        params['item'] = new Item(code: 'I', name: 'I', price: 123.4, deliveryDate: new Date())
+        params['category'] = "CONSUMABLE_MISSING"
+        params['status'] = 'CONFIRMED'
     }
 
     void "Test the index action returns the correct response"() {

@@ -22,11 +22,11 @@ class ReportFunctionalSpec extends GebSpec {
         "${baseUrl}/reports"
     }
 
-    Closure getValidJson(String category = null, String transition = null) {{->
+    Closure getValidJson(String category = null, String status = null) {{->
         [
             item: Item.load(1),
             category: category ?: 'CONSUMABLE_MISSING',
-            transition: transition ?: null
+            status: status ?: 'ISSUED'
         ]
     }}
 
@@ -62,13 +62,12 @@ class ReportFunctionalSpec extends GebSpec {
 
         when:"The save action is executed with valid data"
         response = restBuilder.post(resourcePath) {
-            json getValidJson('OUT_OF_SERVICE', 'DECLARE_KO')
+            json validJson
         }        
 
         then:"The response is correct"
         response.status == CREATED.value()
         response.json.id
-        response.json.item.status == ItemStatus.KO as String
         Report.count() == 1
     }
 
@@ -144,5 +143,61 @@ class ReportFunctionalSpec extends GebSpec {
         then:"The response is correct"
         response.status == NO_CONTENT.value()        
         !Report.get(id)
-    }    
+    }  
+
+    void "Test whether a confirmed report issues correct item status transition"() {
+        // KO
+        when: "A report with KO category is issued"
+        def response = restBuilder.post(resourcePath) {
+            json getValidJson('KO', 'ISSUED')
+        }
+        
+        then: "Item status should not change"
+        response.json.item.status == ItemStatus.OK as String
+        
+        when: "A report with KO category is confirmed"
+        def id = response.json.id
+        response = restBuilder.put("$resourcePath/$id") {
+            json getValidJson('KO', 'CONFIRMED')
+        }
+
+        then: "Item status should change to KO"
+        response.json.item.status == ItemStatus.KO as String
+
+        // FIXING
+        when: "A report with FIXING category is issued"
+        response = restBuilder.post(resourcePath) {
+            json getValidJson('FIXING', 'ISSUED')
+        }
+        
+        then: "Item status should not change"
+        response.json.item.status == ItemStatus.KO as String
+        
+        when: "A report with FIXING category is confirmed"
+        id = response.json.id
+        response = restBuilder.put("$resourcePath/$id") {
+            json getValidJson('FIXING', 'CONFIRMED')
+        }
+
+        then: "Item status should change to FIX"
+        response.json.item.status == ItemStatus.FIXING as String
+
+        // OK
+        when: "A report with OK category is issued"
+        response = restBuilder.post(resourcePath) {
+            json getValidJson('OK', 'ISSUED')
+        }
+        
+        then: "Item status should not change"
+        response.json.item.status == ItemStatus.FIXING as String
+        
+        when: "A report with OK category is confirmed"
+        id = response.json.id
+        response = restBuilder.put("$resourcePath/$id") {
+            json getValidJson('OK', 'CONFIRMED')
+        }
+
+        then: "Item status should change to OK"
+        response.json.item.status == ItemStatus.OK as String
+    }  
 }

@@ -40,8 +40,8 @@ class ReportController {
             return
         }
 
-        if (report.transition)
-            report.item.fire(report.transition).save flush: true
+        if (report.itemStatusTransition)
+            report.item.fire(report.itemStatusTransition).save flush: true
         report.save flush:true
 
         respond report, [status: CREATED, view:"show"]
@@ -61,6 +61,8 @@ class ReportController {
             return
         }
 
+        if (report.itemStatusTransition)
+            report.item.fire(report.itemStatusTransition).save flush: true
         report.save flush:true
 
         respond report, [status: OK, view:"show"]
