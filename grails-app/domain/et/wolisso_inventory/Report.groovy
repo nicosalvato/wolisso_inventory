@@ -5,12 +5,13 @@ import et.wolisso_inventory.enums.ItemStatusTransition
 
 class Report {
 
-	Date dateCreated
-	Date lastUpdated
-	Item item
-	String category
+    Item item
+    String category
     String status = 'ISSUED'
 
+	Date dateCreated
+	Date lastUpdated
+    
     static constraints = {
     	category inList: ['OK', 'FIXING', 'KO', 'CONSUMABLE_MISSING']
         status inList: ['ISSUED', 'CONFIRMED']

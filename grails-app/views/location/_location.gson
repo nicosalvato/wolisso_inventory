@@ -1,0 +1,7 @@
+import et.wolisso_inventory.Location
+
+model {
+	Location location
+}
+
+json g.render(location)

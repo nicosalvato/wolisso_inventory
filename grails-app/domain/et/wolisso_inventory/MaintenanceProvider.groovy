@@ -11,6 +11,9 @@ class MaintenanceProvider {
 	String cell
 	String email
 
+	Date dateCreated
+	Date lastUpdated
+
     static constraints = {
     	name maxSize: 128
     	description nullable: true, blank: true, maxSize: 256

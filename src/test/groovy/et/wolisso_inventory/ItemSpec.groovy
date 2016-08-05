@@ -10,13 +10,15 @@ import et.wolisso_inventory.enums.ItemStatus
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Item)
-@Mock(Manufacturer)
+@Mock([Manufacturer, Location])
 class ItemSpec extends ConstraintUnitSpec {
 
     def manufacturer
+    def location
 
     void setup() {
         manufacturer = new Manufacturer(country: 'China')
+        location = new Location(name: 'Location')
     }
 
     @Unroll("test Item #error constraint for field #field")
@@ -29,7 +31,7 @@ class ItemSpec extends ConstraintUnitSpec {
             deliveryDate: new Date(), 
             status: ItemStatus.OK,
             manufacturer: manufacturer).save(flush: true)
-        /* See http://stackoverflow.com/questions/30047904/unique-constraint-validation-now-passes-in-grails-after-migration-from-2-2-to-2, no comment!*/
+        /* About the flush: true joke, see http://stackoverflow.com/questions/30047904/unique-constraint-validation-now-passes-in-grails-after-migration-from-2-2-to-2, no comment!*/
 
         when:
         def obj = new Item("$field": val)
@@ -59,6 +61,7 @@ class ItemSpec extends ConstraintUnitSpec {
                 price: 1.2, 
                 deliveryDate: new Date(), 
                 status: ItemStatus.OK, 
-                manufacturer: manufacturer).validate()
+                manufacturer: manufacturer,
+                location: location).validate()
     }
 }

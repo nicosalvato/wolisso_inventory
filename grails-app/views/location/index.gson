@@ -1,0 +1,8 @@
+import et.wolisso_inventory.Location
+
+model {
+	Iterable<Location> locationList
+}
+
+json tmpl.location(locationList ?: [])
+

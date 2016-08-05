@@ -14,6 +14,7 @@ class Item {
     boolean isDonation = false
     ItemStatus status = ItemStatus.OK
     Manufacturer manufacturer
+    Location location
 
     Date deliveryDate
     Date dateCreated
@@ -25,6 +26,7 @@ class Item {
         name nullable: false, blank: false, maxSize: 128
         description nullable: true, blank: true, maxSize: 1024
         price min: 0.0
+        location nullable: true
     }
 
     String toString() {

@@ -1,16 +1,14 @@
 package et.wolisso_inventory
 
-class Manufacturer {
+class Location {
 
 	String name
 	String description
-	String country
 
 	Date dateCreated
-	Date lastUpdated
 
     static constraints = {
-    	name nullable: true, blank: true, maxSize: 128
+    	name maxSize: 128, unique: true
     	description nullable: true, blank: true, maxSize: 256
     }
 }
