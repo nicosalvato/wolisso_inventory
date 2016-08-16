@@ -1,0 +1,7 @@
+import et.wolisso_inventory.ItemCategory
+
+model {
+	ItemCategory itemCategory
+}
+
+json g.render(itemCategory)

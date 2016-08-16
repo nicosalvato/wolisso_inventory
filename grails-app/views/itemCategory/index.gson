@@ -1,0 +1,8 @@
+import et.wolisso_inventory.ItemCategory
+
+model {
+	Iterable<ItemCategory> itemCategoryList
+}
+
+json tmpl.itemCategory(itemCategoryList ?: [])
+

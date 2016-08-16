@@ -15,6 +15,7 @@ class Item {
     ItemStatus status = ItemStatus.OK
     Manufacturer manufacturer
     Location location
+    ItemCategory category
 
     Date deliveryDate
     Date dateCreated
@@ -27,6 +28,7 @@ class Item {
         description nullable: true, blank: true, maxSize: 1024
         price min: 0.0
         location nullable: true
+        category nullable: true
     }
 
     String toString() {

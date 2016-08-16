@@ -16,6 +16,7 @@ class UrlMappings {
         "/maintenanceProviders"(resources: "maintenanceProvider")
         "/manufacturers"(resources: "manufacturer")
         "/locations"(resources: "location")
+        "/itemcategories"(resources: "itemCategory")
         "500"(view: '/error')
         "404"(view: '/notFound')
     }
