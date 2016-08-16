@@ -1,13 +1,11 @@
 language: groovy
-language: groovy
-
 jdk:
-  - oraclejdk7
+- oraclejdk7
+branches:
+  only:
+    - master
 
-before_install:
-- curl -s http://get.sdkman.io | bash
-- echo sdkman_auto_answer=true > ~/.sdkman/etc/config
-- source "/home/travis/.sdkman/bin/sdkman-init.sh"
-- sdk install grails 3.1.7
+before_script:
+  - chmod +x gradlew
 
-script: grails test-app --stacktrace
+script: ./gradlew test
