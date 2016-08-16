@@ -61,7 +61,7 @@ dependencies {
     compile "org.grails.plugins:views-json"
     compile "org.grails:grails-dependencies"
     compile "org.grails.plugins:qrcode:0.9"
-    compile "org.grails.plugins:spring-security-oauth2-provider:3.0.0-RC1"
+    // compile "org.grails.plugins:spring-security-oauth2-provider:3.0.0-RC1"
     console "org.grails:grails-console"
     profile "org.grails.profiles:rest-api:3.1.7"
     runtime "com.h2database:h2"
