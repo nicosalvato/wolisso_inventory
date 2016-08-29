@@ -23,7 +23,7 @@ class BootStrap {
                         manufacturer: manufacturer
 		    		).save flush: true	
 		    	}
-                def categories = ['KO', 'FIX', 'OK', 'CONSUMABLE_MISSING']
+                def categories = ['KO', 'FIXING', 'OK', 'CONSUMABLE_MISSING']
                 (1..10).each {
                     new Report(
                         item: Item.load(it % 5 + 1),
