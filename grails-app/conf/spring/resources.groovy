@@ -7,6 +7,7 @@ import et.wolisso_inventory.MaintenanceProvider
 import et.wolisso_inventory.Manufacturer
 import et.wolisso_inventory.Location
 import et.wolisso_inventory.enums.ItemStatus
+import et.wolisso_inventory.cors.CorsFilter
 
 beans = {
 	// HAL renderers, they kick in when 'Accept' header in the request is set to 'application/json+hal'
@@ -22,4 +23,6 @@ beans = {
     halManufacturerCollectionRenderer(HalJsonCollectionRenderer, et.wolisso_inventory.MaintenanceProvider)
     halLocationRenderer(HalJsonRenderer, et.wolisso_inventory.Location)
     halLocationCollectionRenderer(HalJsonCollectionRenderer, et.wolisso_inventory.Location)
+    // CORS
+    corsFilter(CorsFilter)
 }
